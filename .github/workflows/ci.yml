@@ -13,17 +13,10 @@ on:
   pull_request:
     branches: [ "main" ]
 
-permissions:
-  contents: read
-
 jobs:
   build:
 
-    runs-on: ${{matrix.os}}
-    strategy:
-    matrix:
-    os: [ubuntu-latest, windows-latest, macOS]
-    
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -32,8 +25,8 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
-  
+      -name: Grant execute permission for gradlew
+       run: attrib+xgradlew
+       
     - name: Build with Gradle
       run: ./gradlew build 
-  publish:
-      needs: build
